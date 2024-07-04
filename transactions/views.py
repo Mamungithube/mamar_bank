@@ -23,8 +23,6 @@ def send_transaction_email(user, amount, subject, template):
             'user' : user,
             'amount' : amount,
         })
-        # if isinstance(message, tuple):
-        #     message = "".join(message)
         send_email = EmailMultiAlternatives(subject,'', to=[user.email])
         send_email.attach_alternative(message, "text/html")
         send_email.send()
@@ -43,7 +41,7 @@ class TransactionCreateMixin(LoginRequiredMixin, CreateView):
         return kwargs
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs) # template e context data pass kora
+        context = super().get_context_data(**kwargs)
         context.update({
             'title': self.title,
         })
@@ -101,7 +99,7 @@ class WithdrawMoneyView(TransactionCreateMixin):
             self.request,
             f'Successfully withdrawn {"{:,.2f}".format(float(amount))}$ from your account'
         )
-
+        send_transaction_email(self.request.user, amount , "withdowl Message",'withdrawal_email.html')
         return super().form_valid(form)
 
 class LoanRequestView(TransactionCreateMixin):
@@ -122,7 +120,7 @@ class LoanRequestView(TransactionCreateMixin):
             self.request,
             f'Loan request for {"{:,.2f}".format(float(amount))}$ submitted successfully'
         )
-
+        send_transaction_email(self.request.user, amount , "loan request Message",'loan_email.html')
         return super().form_valid(form)
     
 class TransactionReportView(LoginRequiredMixin, ListView):
