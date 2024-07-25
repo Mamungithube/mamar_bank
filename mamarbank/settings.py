@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-import dj_database_url
+
 
 import environ
 
@@ -102,6 +102,7 @@ SECRET_KEY = env("SECRET_KEY")
 #         'PORT': env("DATABASE_PORT"),
 #     }
 # }
+import dj_database_url
 # Replace the SQLite DATABASES configuration with PostgreSQL:
 DATABASES = {
     'default': dj_database_url.config(        
