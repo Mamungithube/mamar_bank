@@ -9,8 +9,8 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
 from pathlib import Path
+import dj_database_url
 import environ
 
 env = environ.Env()
@@ -90,15 +90,22 @@ WSGI_APPLICATION = 'mamarbank.wsgi.application'
 
 
 SECRET_KEY = env("SECRET_KEY")
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': env("DATABASE_NAME"),
+#         'USER': env("DATABASE_USER"),
+#         'PASSWORD': env("DATABASE_PASSWORD"),
+#         'HOST': env("DATABASE_HOST"),
+#         'PORT': env("DATABASE_PORT"),
+#     }
+# }
+# Replace the SQLite DATABASES configuration with PostgreSQL:
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env("DATABASE_NAME"),
-        'USER': env("DATABASE_USER"),
-        'PASSWORD': env("DATABASE_PASSWORD"),
-        'HOST': env("DATABASE_HOST"),
-        'PORT': env("DATABASE_PORT"),
-    }
+    'default': dj_database_url.config(        
+        # Replace this value with your local database's connection string.        
+        default='postgresql://mamabank_user:mAlaKvi4PmvlgeH5F8m654uFEi7XvqEv@dpg-cqh6m6ij1k6c739i5c4g-a.oregon-postgres.render.com/mamabank', 
+    )
 }
 
 
@@ -155,3 +162,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env("Email_USER")
 EMAIL_HOST_PASSWORD = env("Email_PASS")
+
